@@ -1,0 +1,161 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #E9E0CF;
+}
+
+.profile-header {
+  background: linear-gradient(135deg,#f3c883, #CCA566);
+  padding: 15px;
+  text-align: center;
+  font-weight: bold;
+  color: #0F3D32;
+  font-size: 22px;
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+}
+
+.profile-container {
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+/* CARD IZQUIERDA */
+.profile-card {
+  background: white;
+  width: 280px;
+  padding: 25px 20px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.profile-image img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #edbf69;
+}
+
+.profile-card h3 {
+  margin: 15px 0 5px;
+  color: #0F3D32;
+}
+
+.subtitle {
+  color: gray;
+  font-size: 14px;
+}
+
+.edit-btn {
+  margin-top: 15px;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 30px;
+  background: #dfba74;   /*botones */
+  color: #835500;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.edit-btn:hover {
+  opacity: 0.9;
+}
+
+/* INFORMACIÓN DERECHA */
+.profile-info {
+  background: white;
+  width: 440px;
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.profile-info h3 {
+  margin-bottom: 15px;
+  color: #0F3D32;
+}
+
+.info-group {
+  margin-bottom: 15px;
+}
+
+.info-group label {
+  font-size: 13px;
+  color: gray;
+}
+
+.info-group input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #DCEEE3;
+  margin-top: 5px;
+}
+
+.history-card {
+  background: #fff1d7;
+  padding: 15px;
+  border-radius: 15px;
+  margin-top: 10px;
+}
+
+.history-card span {
+  display: block;
+  margin-top: 5px;
+  color: #0F3D32;
+  font-weight: bold;
+}
+
+/* BOTÓN CERRAR SESIÓN */
+.logout-btn {
+  margin-top: 20px;
+  width: 100%;
+  background: #d9534f;
+  border: none;
+  border-radius: 12px;
+  padding: 10px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: #c9302c;
+}
+
+/* RESPONSIVE */
+@media(max-width: 768px) {
+  .profile-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile-info, .profile-card {
+    width: 100%;
+    max-width: 360px;
+  }
+}
+
+  .btn-back {
+  position: absolute;
+  left: 10px;
+  padding: 6px 30px;
+  border: 2px solid #e89b0b;
+  background: transparent;
+  color: #e89b0b;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 800;
+  transition: 0.25s;
+  }
+
+.btn-back:hover {
+  background-color: #D4AF37;
+  transform: scale(1.08);
+}
+

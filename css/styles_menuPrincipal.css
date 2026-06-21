@@ -1,0 +1,108 @@
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #e8dfd3;
+  color: #333;
+}
+
+header {
+  background-color: #CCA566;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+header img {
+  height: 110px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  margin: 0 10px;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: #7c6442;
+}
+
+h1 {
+  font-family: "Brush Script MT", cursive;
+  font-size: 2.5em;
+  color: #4a3a29;
+    }
+
+.catalogo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.producto {
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.producto:hover {
+  transform: scale(1.03);
+}
+
+.producto img {
+  width: 100%;
+  height: auto;
+}
+
+.producto h3 {
+  margin: 10px 0;
+  color: #4a3a29;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #E9E0CF; /* Light beige for footer to match body and maintain flow */
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  border-top: 1px solid #8A6E39; /* Olive green border for a cohesive, earthy separation */
+}
+
+footer button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #5794AB; /* Blue for footer icons/buttons to add a cool, complementary pop within the warm scheme */
+}
+
+.btn-add {
+  background: linear-gradient(to right, #99A85D, #CCA566); /* Gradient from light green to gold for an energetic, harmonious accent */
+  color: white;
+  border-radius: 50%;
+  padding: 12px;
+  font-size: 22px;
+  margin-top: -20px;
+}
+    .go-to-cart {
+      background-color: #1E3534;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 0.9em;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }

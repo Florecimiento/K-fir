@@ -1,0 +1,122 @@
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #E9E0CF;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      width: 100%;
+      padding: 10px;
+      background-color: #CCA566;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    header span {
+      font-size: 14px;
+      margin-left: auto;
+      color: #1E3534;
+    }
+
+    .container {
+      margin-top: 20px;
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    .logo img {
+      width: 150px;
+      height: auto;
+    }
+
+    h2 {
+      font-family: "Brush Script MT", cursive;
+      font-size: 24px;
+      margin: 10px 0;
+      color: #1E3534;
+    }
+
+    h1 {
+      text-align: center;
+      color: #444;
+      margin-top: 10px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin: 10px 0 5px;
+      color: #1E3534;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #8A6E39;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      background-color: #F9F5EE;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    .btn-primary {
+      background-color: #1E3534;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #2C4C4A;
+    }
+
+    .enlace-registro {
+      display: block;
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .enlace-registro a {
+      color: #1E3534;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .enlace-registro a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #E9E0CF;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      border-top: 1px solid #8A6E39;
+    }
+
+    footer button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      color: #5794AB;
+      }

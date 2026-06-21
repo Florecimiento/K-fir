@@ -1,0 +1,291 @@
+:root {
+  --primary: #1E3534;
+  --accent: #CCA566;
+  --bg: #E9E0CF;
+  --radius: 10px;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  background: var(--bg);
+  color: var(--primary);
+}
+
+.header {
+  background: linear-gradient(135deg, #E9E0CF, #f3c883, #CCA566);
+  color: #0F3D32;
+  padding: 10px 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;  /* Izquierda - Centro - Derecha */
+
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  position: relative;              /* Permite centrar el título */
+}
+
+/* 🔹 Título centrado */
+.header h1 {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+  font-weight: 800;
+  margin: 0;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* 🔹 Botón "Seguir comprando" */
+.btn-back {
+  font-size: 14px;
+  padding: 7px 12px;
+  background-color: #ffffff;
+  border: 2px solid #2c463b;
+  color: #2c463b;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.25s;
+}
+
+.btn-back:hover {
+  background-color: #f3c883;
+  transform: scale(1.08);
+}
+
+/* 🔹 Logo a la derecha */
+.header img {
+  height: 65px;
+  width: 65px;
+  object-fit: contain;
+  margin-right: 5px;
+  transition: 0.3s ease;
+}
+
+/* ===================================================
+   📱 MODO RESPONSIVO
+   =================================================== */
+
+/* 🔸 Para tablets medianas */
+@media (max-width: 900px) {
+  .header h1 {
+    font-size: 18px;
+  }
+
+  .header img {
+    height: 58px;
+    width: 58px;
+  }
+
+  .btn-back {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+}
+
+/* 🔸 Para celulares grandes */
+@media (max-width: 600px) {
+
+  .header {
+    padding: 8px 10px;
+  }
+
+  .header h1 {
+    font-size: 16px;
+  }
+
+  .header img {
+    height: 50px;
+    width: 50px;
+  }
+}
+
+/* 🔸 Para celulares pequeños */
+@media (max-width: 400px) {
+
+  .header h1 {
+    font-size: 14px;
+    max-width: 60%;
+    white-space: normal;   /* Permite 2 líneas si es necesario */
+  }
+
+  .header img {
+    height: 42px;
+    width: 42px;
+  }
+
+  .btn-back {
+    font-size: 12px;
+    padding: 5px 8px;
+  }
+}
+
+/* 🔸 Para pantallas MUY pequeñas */
+@media (max-width: 330px) {
+
+  .header h1 {
+    font-size: 13px;
+  }
+
+  .header img {
+    height: 38px;
+    width: 38px;
+  }
+
+  .btn-back {
+    font-size: 11px;
+    padding: 5px 7px;
+  }
+}
+
+#title-cart {   /* html */
+  font-size: 33px;
+  font-weight: bold;
+  margin: 0;
+  text-align: center;
+}
+
+.cart-container {   /*html*/
+  max-width: 900px;
+  margin: 30px auto;
+  background: white;
+  padding: 10px;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding-left: 10px;
+}
+
+.cart-items {   /*HTML da forma al carrito*/ 
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.cart-summary {   /*html*/
+  text-align: center;
+  padding-top: 20px;
+  grid-column: 1 / -1;
+}
+
+.cart-summary h3 {   /*html*/ 
+  margin-bottom: 16px;
+}
+
+.total-label {  /*html*/
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.checkout-btn {   /*html*/
+  width: 100%;
+  padding: 15px;
+  background: #f3c883;
+  color: white;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 22px;
+  transition: 0.3s;
+}
+
+.checkout-btn:hover {    /*html*/ 
+  background: #CCA566;
+  transform: scale(1.03);
+}
+
+/*************************************************/
+
+.cart-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+}
+
+.cart-info h4 {   /* Nombre del producto en el JS*/
+  margin: 0;
+  font-size: 1em;
+}
+
+.cart-info p {    /*Descripción del producto en el JS*/  
+  margin: 4px 0;
+  font-size: 0.9em;
+  color: #555;
+}
+
+span{
+  margin: 5px;
+  font-size: 0.8em;
+}
+
+.total-amount {   /*  JS  estructura html   que contiene el span de JS con TOTAL A PAGAR */
+  font-size: 20px;
+  font-weight: 700;
+  color: #6b4200;
+  /*flex-direction:var(--primary);*/
+  justify-content: space-between;
+  align-items: center;
+  background:#fbf6ec;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px solid #eecb91;
+}
+
+.cart-item {    /*JS*/
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd;
+  padding: 12px 0;
+  gap:20px;
+}
+
+.cart-item img {      /* JS  */ 
+  width: 65px;
+  height: 65px;
+  object-fit: cover;
+  /* border-radius: var(--radius); */
+  border-radius: 12px;
+  margin-right: 12px;
+}
+
+.quantity-buttons {   /*js   selectores de cantidad*/
+  display: flex;
+  flex-direction: column;  /* 🔥 LOS PONE VERTICALES */
+  align-items: center;
+  gap: 6px; /* separación entre botones */
+  font-size: large;
+}
+
+.quantity-buttons button {   /*js*/
+  background: #fbf6ec;
+  color: var(--primary);
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  border: 1px solid #eecb91;
+}
+
+.removeItem-btn {   /*  JS*/
+  background-color: #ff4d4d;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 20px;
+  transition: 0.3s;
+}
+
+.removeItem-btn:hover {   /*  JS*/
+  background-color: #ff1a1a;
+  transform: scale(1.1);
+}

@@ -1,0 +1,104 @@
+   /* === Paleta y estructura general === */
+    body {
+      margin: 0;
+      font-family: "Arial", sans-serif;
+      background-color: #E9E0CF;
+      color: #1E3534;
+      line-height: 1.6;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #CCA566;
+      padding: 15px;
+      color: #1E3534;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header img {
+      width: 70px;
+      margin-right: 10px;
+    }
+
+    h1 {
+      font-size: 44px;
+      font-family: "Brush Script MT", cursive;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    section {
+      margin-bottom: 40px;
+      background: #fffaf3;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #8A6E39;
+      border-left: 5px solid #99A85D;
+      padding-left: 10px;
+    }
+
+    p {
+      color: #1E3534;
+      font-size: 16px;
+      text-align: justify;
+    }
+
+    
+    /* === Galería === */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .gallery img {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid #8A6E39;
+      transition: transform 0.3s;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.05);
+    }
+
+    .back-button {
+      background: transparent;
+      border: 2px solid #e89b0b;
+      padding: 6px 30px;
+      color: #e89b0b;
+      font-size: 18px;
+      border-radius: 12px;
+      cursor: pointer;      
+      font-weight: 800;
+      transition: 0.25s;
+    }
+
+    .back-button:hover {
+  background-color: #D4AF37;
+  transform: scale(1.08);
+}
+    /* === Footer === */
+    footer {
+      text-align: center;
+      padding: 10px;
+      background-color: #E9E0CF;
+      border-top: 1px solid #8A6E39;
+      font-size: 14px;
+      color: #4B754E;
+    }
+

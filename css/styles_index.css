@@ -1,0 +1,106 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #E9E0CF; /* Light beige for a soft, harmonious base */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header {
+  width: 100%;
+  padding: 10px;
+  background-color: #CCA566; /* Warm gold for header to add subtle warmth and contrast */
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+header span {
+  font-size: 14px;
+  margin-left: auto;
+  color: #1E3534; /* Dark teal for text to ensure readability and tie into the earthy theme */
+}
+
+.container {
+  margin-top: 20px;
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+}
+
+.logo img {
+  width: 150px;
+  height: auto;
+}
+
+h1 {
+      text-align: center;
+      margin-top: 40%;
+      color: #444;
+}
+
+h2 {
+  font-family: "Brush Script MT", cursive;
+  font-size: 24px;
+  margin: 10px 0;
+  color: #1E3534; /* Dark teal for headings to create a grounded, natural focal point */
+}
+
+p {
+  font-size: 14px;
+  margin-bottom: 20px;
+  color: #4B754E; /* Dark green for body text, evoking earthiness and harmony with the palette */
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.btn-primary {
+  background-color: #1E3534; /* Dark teal for primary actions, providing strong contrast and depth */
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #E9E0CF; /* Light beige background for secondary, keeping it subtle */
+  border: 2px solid #8A6E39; /* Olive green border for a natural, grounded accent */
+  color: #1E3534; /* Dark teal text for consistency */
+}
+
+.gallery {
+  margin: 20px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.gallery img {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #99A85D; /* Light green subtle border to enhance images without overpowering */
+}
+
+.btn-add {
+  background: linear-gradient(to right, #99A85D, #CCA566); /* Gradient from light green to gold for an energetic, harmonious accent */
+  color: white;
+  border-radius: 50%;
+  padding: 12px;
+  font-size: 22px;
+  margin-top: -20px;
+}
+
+.btn-primary:hover {
+  background-color: #4B754E; 
+}
+
+.btn-secondary:hover {
+  background-color: #8A6E39;
+}

@@ -1,0 +1,103 @@
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #E9E0CF; /* Cambio a beige claro de la paleta */
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+}
+
+header {
+  background-color:#CCA566;  /* Cambio a marrón tierra de la paleta */
+  width: 100%;
+  text-align: left;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+header button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.logo {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.logo img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+}
+
+h1 {
+  font-family: 'Arial Black', sans-serif;
+  color:  #1E3534;
+  margin-top: 20px;
+}
+
+h2 {
+  font-family: "Brush Script MT", cursive;
+  text-align: center;
+  font-size: 24px;
+  margin: 10px 0;
+  color: #1E3534; /* Dark teal for headings to create a grounded, natural focal point */
+}
+
+form {
+  width: 80%;
+  max-width: 350px;
+  background:#E9E0CF; /* Mantengo blanco para contraste, pero podría ajustarse si se desea */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  margin-top: 10px;
+  border: 2px solid #8A6E39; /
+}
+/* ====== LABELS Y CAMPOS ====== */
+label {
+  font-weight: bold;
+  display: block;
+  margin: 10px 0 5px;
+}
+
+input {
+  width: 91%;
+  padding: 10px;
+  border: 1px solid #8A6E39; /* Cambio a verde oscuro de la paleta */
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+input:focus {
+  border-color: #5c6afe;
+  box-shadow: 0 0 6px rgba(92,106,254,0.4);
+}
+
+button.submit {
+  width: 100%;
+  padding: 12px;
+  background-color:#1E3534; /* Cambio a azul medio de la paleta */
+  color: white; /* Mantengo blanco para legibilidad */
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button.submit:hover {
+  background-color: #4B754E; /* Cambio a verde oscuro de la paleta */
+}
+
+/* ====== ANIMACIONES ====== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
