@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo de Smoothies</title>
+  <link rel="stylesheet" href="CSS/styles_catalogo.css">
+</head>
+<body>
+  <header> 
+    
+    <h1 class="titulo">Catálogo de Smoothies</h1>
+    <button class="crud-button" onclick="window.location.href='/admonGeneral.html'">    <!-- Nuevo botón: Administración del catálogo (CRUD) -->
+      🛠️ Administración General
+    </button>
+    <!-- Opcional: Botones separados según acción CRUD -->
+    <button class="crud-small" onclick="window.location.href='/crearProducto.html'">  <!-- Crear producto nuevo -->
+      ➕ Nuevo
+    </button>
+    <button class="crud-small" onclick="window.location.href='/editarProductos.html'">  <!-- Editar catálogo completo -->
+      ✏️ Editar
+    </button>
+    <button class="crud-small" onclick="window.location.href='/eliminarProductos.html'">   <!-- Eliminar productos -->
+      🗑️ Eliminar
+    </button>
+<button class="btn-export btn-pdf"
+onclick="window.open('http://localhost:3000/api/exportaciones/exportar-pdf')">
+📄 Exportar PDF
+</button>
+<button class="btn-export btn-word"
+onclick="window.open('http://localhost:3000/api/exportaciones/exportar-word')">
+📝 Exportar Word
+</button>
+<button class="btn-export btn-excel"
+onclick="window.open('http://localhost:3000/api/exportaciones/exportar-excel')">
+📊 Exportar Excel
+</button>
+  </header>
+  <div id="catalogo" class="grid-container"></div>
+<!-- PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<!-- Tabla PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+<!-- Excel -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<!-- Word -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <script>
+   fetch("http://localhost:3000/api/productos")
+.then(response => response.json())
+.then(productos => {
+    const contenedor =
+    document.getElementById("catalogo");
+    contenedor.innerHTML = "";
+    productos.forEach(prod => {
+        const card =
+        document.createElement("div");
+        card.classList.add("product-card");
+        card.innerHTML = `
+            <img src="${prod.image}" alt="${prod.name}">
+            <div class="product-info">
+                <h3>${prod.name}</h3>
+                <p>${prod.description}</p>
+                <span class="price">
+                    $${prod.price} MXN
+                </span>
+                <div class="quantity-controls">  
+                  <span>  
+                  Disponibilidad: ${prod.quantity}
+                  </span>
+                </div>
+                <a href="carrito.html">
+                    <button class="add-to-cart"
+                    onclick="addToCart('${prod.name}',${prod.price})">
+                        Agregar a Pedidos del Día
+                    </button>
+                </a>
+            </div>
+        `;
+        contenedor.appendChild(card);
+    });
+})
+.catch(error => {
+    console.error(error);
+    alert(
+        "❌ Error cargando productos:\n" +
+        error.message
+    );
+});
+  </script>
+</body>
+</html>

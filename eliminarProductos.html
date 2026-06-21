@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Eliminar Productos</title>
+
+<style>
+
+body{
+    font-family:Segoe UI;
+    background:#f4f7f6;
+    margin:20px;
+}
+
+ header {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .back-button {
+            width: 55px;
+            height: 55px;
+            border: none;
+            border-radius: 12px;
+            background-color: #d1202f;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #f0630c;
+            transform: scale(1.05);
+        }
+
+
+
+h1{
+    color:#b71c1c;
+    text-align: center;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+}
+
+th{
+    background:#b71c1c;
+    color:white;
+    padding:12px;
+}
+
+td{
+    padding:10px;
+    border-bottom:1px solid #ddd;
+}
+
+img{
+    width:80px;
+    height:80px;
+    object-fit:cover;
+    border-radius:10px;
+}
+
+.btnEliminar{
+
+    background:#e53935;
+
+    color:white;
+
+    border:none;
+
+    padding:10px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+}
+
+.btnEliminar:hover{
+
+    background:#b71c1c;
+}
+
+.buscador{
+
+    margin-bottom:20px;
+}
+
+.buscador input{
+
+    width:300px;
+
+    padding:10px;
+
+    border-radius:8px;
+
+    border:1px solid #ccc;
+}
+
+</style>
+
+</head>
+<body>
+    <header>
+        <button class="back-button" onclick="window.location.href='catalogo.html'">←</button>
+    </header>
+
+<h1>🗑 Eliminar Productos</h1>
+
+<div class="buscador">
+
+<input
+type="text"
+id="buscar"
+placeholder="Buscar producto">
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Imagen</th>
+<th>Producto</th>
+<th>Descripción</th>
+<th>Cantidad</th>
+<th>Precio</th>
+<th>Acción</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tablaProductos">
+
+</tbody>
+
+</table>
+
+<script>
+
+let productos=[];
+async function cargarProductos(){
+    try{
+        const response =
+        await fetch(
+        "http://localhost:3000/api/productos"
+        );
+        productos =
+        await response.json();
+        mostrarProductos(productos);
+    }
+    catch(error){
+        alert(error.message);
+    }
+}
+function mostrarProductos(lista){
+    const tabla =
+    document.getElementById(
+    "tablaProductos"
+    );
+    tabla.innerHTML="";
+    lista.forEach(prod=>{
+        tabla.innerHTML += `
+        <tr>
+            <td>
+                <img src="${prod.image}">
+            </td>
+            <td>
+                ${prod.name}
+            </td>
+            <td>
+                ${prod.description}
+            </td>
+            <td>
+                ${prod.quantity}
+            </td>
+            <td>
+                $${prod.price}
+            </td>
+            <td>
+                <button
+                class="btnEliminar"
+                onclick="eliminarProducto('${prod._id}')">
+                Eliminar
+                </button>
+            </td>
+        </tr>
+        `;
+    });
+}
+async function eliminarProducto(id){
+    const confirmar =
+    confirm(
+    "¿Deseas eliminar este producto?\n\n" +
+    "Se moverá a ProductosEliminados."
+    );
+    if(!confirmar) return;
+    try{
+        const response =
+        await fetch(
+        `http://localhost:3000/api/productos/${id}`,
+        {
+            method:"DELETE"
+        });
+        const resultado =
+        await response.json();
+        alert(resultado.mensaje);
+        cargarProductos();
+    }
+    catch(error){
+        alert(error.message);
+    }
+}
+document
+.getElementById("buscar")
+.addEventListener("input",()=>{
+    const texto =
+    document
+    .getElementById("buscar")
+    .value
+    .toLowerCase();
+    const filtrados =
+    productos.filter(p=>
+        p.name
+        .toLowerCase()
+        .includes(texto)
+    );
+    mostrarProductos(
+    filtrados
+    );
+});
+
+cargarProductos();
+
+</script>
+
+</body>
+</html>

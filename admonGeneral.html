@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Gestión de Pedidos</title>
+
+<style>
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background:#f4f6f8;
+    margin:20px;
+    background-image:url('https://i.postimg.cc/4xFKSVwz/fondo-pedidos.png');
+}
+ header {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        
+        }
+
+        .back-button {
+            width: 55px;
+            height: 55px;
+            border: none;
+            border-radius: 12px;
+            background-color: #ff7b00;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color:#ff9901;
+            transform: scale(1.05);
+        }
+
+
+   h1{
+    text-align:center;
+    color:#2c3e50;
+}
+
+.contenedor{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.pedido{
+    display:flex;
+    align-items: flex-start;
+    background:white;
+    border-radius:15px;
+    padding:20px;
+    box-shadow:0 3px 10px rgba(0,0,0,.15);
+    border-left:8px solid #ff9800;
+    transition: all 0.3s ease;
+}
+
+/* Clases dinámicas basadas en los estados reales de tu esquema de Mongoose */
+.PENDIENTE { border-left-color: #ff9800; }
+.PREPARANDO { border-left-color: #3498db; }
+.LISTO { border-left-color: #27ae60; }
+.ENTREGADO { border-left-color: #7f8c8d; }
+
+.info{
+    flex:1;
+}
+
+.cliente {
+    font-size: 20px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 8px;
+}
+
+.detalles-productos {
+    background: #f9f9f9;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin: 10px 0;
+}
+
+.item-producto {
+    font-size: 15px;
+    color: #333;
+    padding: 4px 0;
+    border-bottom: 1px dashed #eee;
+}
+.item-producto:last-child {
+    border-bottom: none;
+}
+
+.meta-datos {
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+    color: #666;
+    margin-top: 5px;
+}
+
+.total-pedido {
+    font-size: 18px;
+    font-weight: bold;
+    color: #27ae60;
+    margin-top: 8px;
+}
+
+.estado {
+    margin-top: 12px;
+}
+
+.estado select{
+    padding:8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-weight: 600;
+}
+</style>
+</head>
+
+<body>
+<header>  
+<button class="back-button" onclick="window.location.href='catalogo.html'">←</button>
+</header>
+<h1>📋 Cola de Pedidos Real-Time ⌛</h1>
+<div id="listaPedidos" class="contenedor">
+    <p style="text-align:center; color:#888;">Cargando pedidos desde MongoDB...</p>
+</div>
+
+<script>
+// Arreglo global dinámico que se llenará con la base de datos
+let pedidos = [];
+
+// 1. OBTENER LOS PEDIDOS DESDE EL BACKEND
+async function obtenerPedidosBackend() {
+    try {
+        // Llama al endpoint GET definido en routes/pedidos.js
+        const respuesta = await fetch("/api/pedidos");
+        pedidos = await respuesta.json();
+        
+        // Ordenar antes de renderizar
+        ordenarCola();
+        renderizarPedidos();
+    } catch (error) {
+        console.error("Error al obtener pedidos:", error);
+        document.getElementById("listaPedidos").innerHTML = 
+            `<p style="text-align:center; color:red;">Error al conectar con el servidor.</p>`;
+    }
+}
+
+// 2. RENDERIZAR EN EL HTML
+function renderizarPedidos(){
+    const lista = document.getElementById("listaPedidos");
+    lista.innerHTML = "";
+
+    if (pedidos.length === 0) {
+        lista.innerHTML = `<p style="text-align:center; color:#888;">No hay pedidos registrados en el sistema.</p>`;
+        return;
+    }
+
+    pedidos.forEach((p, index) => {
+        // Generar el bloque html interno para la lista de productos del pedido
+        let htmlProductos = "";
+        p.productos.forEach(prod => {
+            htmlProductos += `
+                <div class="item-producto">
+                    • <strong>${prod.nombre}</strong> x ${prod.cantidad} — $${prod.precio} MXN
+                </div>
+            `;
+        });
+
+        // Formatear fecha de MongoDB a algo legible
+        const fechaLegible = new Date(p.fecha).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+        lista.innerHTML += `
+        <div class="pedido ${p.estado}">
+            <div class="info">
+                <div class="cliente">👤 ${p.cliente}</div>
+                
+                <div class="meta-datos">
+                    <span>${p.origen === "APP" ? "📱 Aplicación" : "📞 Telefónico"}</span>
+                    <span>⏰ Hora: ${fechaLegible}</span>
+                </div>
+
+                <div class="detalles-productos">
+                    ${htmlProductos}
+                </div>
+
+                <div class="total-pedido">
+                    Total: $${p.total.toFixed(2)} MXN
+                </div>
+
+                <div class="estado">
+                    <strong>Estado:</strong>
+                    <select onchange="cambiarEstadoBackend('${p._id}', this.value)">
+                        <option value="PENDIENTE" ${p.estado === "PENDIENTE" ? "selected" : ""}>Pendiente</option>
+                        <option value="PREPARANDO" ${p.estado === "PREPARANDO" ? "selected" : ""}>Preparando</option>
+                        <option value="LISTO" ${p.estado === "LISTO" ? "selected" : ""}>Listo</option>
+                        <option value="ENTREGADO" ${p.estado === "ENTREGADO" ? "selected" : ""}>Entregado</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        `;
+    });
+}
+
+// 3. ACTUALIZAR ESTADO EN MONGO DB (PUT)
+async function cambiarEstadoBackend(id, nuevoEstado) {
+    try {
+        // Llama al endpoint PUT /api/pedidos/:id definido en routes/pedidos.js
+        const respuesta = await fetch(`/api/pedidos/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ estado: nuevoEstado })
+        });
+
+        const datos = await respuesta.json();
+
+        if (datos.ok) {
+            // Actualizar la lista local sin recargar toda la página por completo
+            const pedidoLocal = pedidos.find(p => p._id === id);
+            if (pedidoLocal) pedidoLocal.estado = nuevoEstado;
+            
+            ordenarCola();
+            renderizarPedidos();
+        } else {
+            alert("No se pudo actualizar el estado en el servidor");
+        }
+    } catch (error) {
+        console.error("Error al cambiar de estado:", error);
+        alert("Ocurrió un fallo de conexión al actualizar el estado.");
+    }
+}
+
+// 4. CLASIFICACIÓN Y ORDENAMIENTO POR PRIORIDAD
+function ordenarCola(){
+    // Mapeo idéntico al Enum de tu base de datos Mongoose (Mayúsculas)
+    const prioridad = {
+        PENDIENTE: 1,
+        PREPARANDO: 2,
+        LISTO: 3,
+        ENTREGADO: 4
+    };
+
+    pedidos.sort((a, b) => prioridad[a.estado] - prioridad[b.estado]);
+}
+
+// Carga inicial automatizada al abrir o refrescar la pestaña
+obtenerPedidosBackend();
+
+// Opcional: Auto-refrescar cada 30 segundos para simular tiempo real continuo
+setInterval(obtenerPedidosBackend, 30000);
+
+</script>
+</body>
+</html>

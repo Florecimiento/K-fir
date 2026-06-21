@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Juego: Dispara a los pajaritos (Demo)</title>
+  <style>
+    :root{--bg:#0b1220;--panel:#0f1724;--accent:#ffd166}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Arial}
+    .wrap{display:grid;grid-template-columns:1fr 320px;gap:12px;height:100%;padding:12px;box-sizing:border-box;background:linear-gradient(180deg,#07101a 0%, #081526 100%)}
+    canvas{background:linear-gradient(180deg,#7ec8e3 0%, #bfe9ff 60%, #cbeedc 100%);border-radius:10px;box-shadow:0 6px 20px rgba(2,6,23,0.6);width:100%;height:100%;display:block}
+    .panel{background:var(--panel);color:#e6eef6;padding:16px;border-radius:10px;display:flex;flex-direction:column;gap:12px}
+    h1{font-size:18px;margin:0;color:var(--accent)}
+    .row{display:flex;gap:8px;align-items:center}
+    .weapons button{padding:8px 10px;border-radius:8px;border:0;background:#14202b;color:#d7f1ff;cursor:pointer}
+    .weapons button.active{outline:2px solid var(--accent);background:#0b2b34}
+    .stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .small{font-size:13px;color:#bcd7ee}
+    .controls button{padding:8px;border-radius:8px;border:0;background:#1a2a36;color:#e9f6ff;cursor:pointer}
+    .footer{margin-top:auto;font-size:13px;color:#9fb7cf}
+    .hint{font-size:13px;color:#c8e8ff}
+    @media (max-width:900px){.wrap{grid-template-columns:1fr} .panel{order:2;height:260px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <canvas id="game"></canvas>
+    <div class="panel">
+      <h1>Dispara a los pajaritos — Demo</h1>
+      <div class="row weapons" id="weapons"></div>
+
+      <div class="row stats">
+        <div>
+          <div class="small">Puntuación</div>
+          <div id="score" style="font-size:24px">0</div>
+        </div>
+        <div>
+          <div class="small">Vidas</div>
+          <div id="lives" style="font-size:24px">3</div>
+        </div>
+      </div>
+
+      <div class="row hint">Haz clic o toca la pantalla para disparar. Mantén presionado para disparo rápido si el arma lo permite.</div>
+
+      <div class="row controls">
+        <button id="startBtn">Iniciar / Reiniciar</button>
+        <button id="pauseBtn">Pausar</button>
+      </div>
+
+      <div>
+        <div class="small">Opciones de pajaritos sugeridas:</div>
+        <ul class="small">
+          <li>Colibrí — pequeño, rápido (difícil)</li>
+          <li>Gorrión — pequeño-medio, común (fácil)</li>
+          <li>Petirrojo — mediano, maniobrable</li>
+          <li>Mirlo — mediano-grande, lento</li>
+          <li>Jilguero — pequeño, zigzaguea</li>
+        </ul>
+      </div>
+
+      <div class="footer">Sugerencias: cambia los parámetros de arma (velocidad, cadencia) en el panel de código para ajustar la dificultad.</div>
+    </div>
+  </div>
+
+<script>
+// --- Configuración de armas disponibles ---
+const WEAPONS = [
+  { id:'pistola', label:'Pistola', fireRate: 300, bulletSpeed: 900, bulletSize:6, auto:false },
+  { id:'rifle', label:'Rifle', fireRate: 120, bulletSpeed: 1200, bulletSize:4, auto:true },
+  { id:'arco', label:'Arco', fireRate: 700, bulletSpeed:700, bulletSize:8, auto:false },
+  { id:'escopeta', label:'Escopeta', fireRate:900, bulletSpeed:700, bulletSize:5, auto:false, pellets:5 }
+];
+
+// --- Canvas y dimensiones ---
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+let W = 800, H = 600;
+function resize(){
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = Math.max(600, rect.width * devicePixelRatio);
+  canvas.height = Math.max(400, (rect.height || (window.innerHeight-40)) * devicePixelRatio);
+  canvas.style.width = rect.width + 'px';
+  canvas.style.height = rect.height + 'px';
+  W = canvas.width; H = canvas.height;
+}
+window.addEventListener('resize', resize);
+resize();
+
+// --- Estado del juego ---
+let birds = [];
+let bullets = [];
+let explosions = [];
+let score = 0;
+let lives = 3;
+let running = false;
+let lastTime = 0;
+let currentWeapon = WEAPONS[0];
+let mouseDown = false;
+let lastFire = 0;
+
+// --- Creación UI armas ---
+const weaponsDiv = document.getElementById('weapons');
+WEAPONS.forEach(w => {
+  const b = document.createElement('button');
+  b.textContent = w.label;
+  b.onclick = () => { selectWeapon(w.id); };
+  b.id = 'w-'+w.id;
+  weaponsDiv.appendChild(b);
+});
+function selectWeapon(id){
+  currentWeapon = WEAPONS.find(x=>x.id===id) || WEAPONS[0];
+  WEAPONS.forEach(w=>document.getElementById('w-'+w.id).classList.toggle('active', w.id===id));
+}
+selectWeapon('pistola');
+
+// --- Utilidades ---
+function rand(min,max){return Math.random()*(max-min)+min}
+function now(){return performance.now();}
+
+// --- Definición de pajaritos ---
+const BIRD_TYPES = [
+  {type:'colibri', size:12, speed:240, score:30, color:'#ff6b6b', pattern:'zigzag'},
+  {type:'gorrion', size:18, speed:140, score:10, color:'#444444', pattern:'straight'},
+  {type:'petirrojo', size:20, speed:160, score:15, color:'#d96b3d', pattern:'weave'},
+  {type:'mirlo', size:28, speed:90, score:8, color:'#0b1724', pattern:'straight'},
+  {type:'jilguero', size:14, speed:200, score:20, color:'#ffd166', pattern:'zigzag'}
+];
+
+function spawnBird(){
+  const t = BIRD_TYPES[Math.floor(Math.random()*BIRD_TYPES.length)];
+  const y = rand(H*0.1, H*0.5);
+  const fromLeft = Math.random() < 0.5;
+  birds.push({
+    x: fromLeft ? -50 : W+50,
+    y,
+    vx: (fromLeft?1:-1) * t.speed * (0.6 + Math.random()*0.8),
+    vy:0,
+    size: t.size * (0.9 + Math.random()*0.3),
+    color: t.color,
+    type: t.type,
+    score:t.score,
+    pattern: t.pattern,
+    alive:true,
+    wobble: Math.random()*1000
+  });
+}
+
+// spawn inicial
+for(let i=0;i<5;i++) spawnBird();
+
+// --- Lógica de disparo ---
+canvas.addEventListener('pointerdown', e=>{ mouseDown = true; fire(e); });
+canvas.addEventListener('pointerup', ()=>{ mouseDown=false; });
+canvas.addEventListener('pointercancel', ()=>{ mouseDown=false; });
+canvas.addEventListener('pointermove', e=>{ if(mouseDown && currentWeapon.auto) fire(e); });
+
+function fire(e){
+  const t = now();
+  if(t - lastFire < currentWeapon.fireRate) return;
+  lastFire = t;
+  const rect = canvas.getBoundingClientRect();
+  const px = (e.clientX - rect.left) * devicePixelRatio;
+  const py = (e.clientY - rect.top) * devicePixelRatio;
+
+  const originX = W/2; // fire from bottom center
+  const originY = H - 40*devicePixelRatio;
+
+  if(currentWeapon.pellets){
+    for(let i=0;i<currentWeapon.pellets;i++){
+      const angle = Math.atan2(py-originY, px-originX) + (rand(-0.18,0.18));
+      bullets.push({x:originX,y:originY,vx:Math.cos(angle)*currentWeapon.bulletSpeed, vy:Math.sin(angle)*currentWeapon.bulletSpeed, size:currentWeapon.bulletSize});
+    }
+  } else {
+    const angle = Math.atan2(py-originY, px-originX);
+    bullets.push({x:originX,y:originY,vx:Math.cos(angle)*currentWeapon.bulletSpeed, vy:Math.sin(angle)*currentWeapon.bulletSpeed, size:currentWeapon.bulletSize});
+  }
+  // sonido simple
+  try{ const osc = new (window.AudioContext||window.webkitAudioContext)(); const o = osc.createOscillator(); const g = osc.createGain(); o.type='sine'; o.frequency.value=600; o.connect(g); g.connect(osc.destination); g.gain.value=0.02; o.start(); o.stop(osc.currentTime+0.05); }
+  catch(err){}
+}
+
+// --- Actualización y colisiones ---
+function update(dt){
+  // birds
+  for(const b of birds){
+    if(!b.alive) continue;
+    // movement patterns
+    if(b.pattern==='zigzag'){
+      b.wobble += dt*0.003;
+      b.y += Math.sin(b.wobble*3)*0.6*devicePixelRatio;
+    } else if(b.pattern==='weave'){
+      b.wobble += dt*0.0025;
+      b.y += Math.sin(b.wobble*2)*1.2*devicePixelRatio;
+    }
+    b.x += b.vx * dt/1000;
+    // leave screen -> lose life
+    if(b.x < -200 || b.x > W + 200){
+      b.alive = false;
+      lives = Math.max(0, lives-1);
+      document.getElementById('lives').textContent = lives;
+      setTimeout(()=>spawnBird(), 800);
+    }
+  }
+
+  // bullets
+  for(const bl of bullets){
+    bl.x += bl.vx * dt/1000;
+    bl.y += bl.vy * dt/1000;
+  }
+
+  // collisions: bullet vs bird
+  for(const bl of bullets){
+    for(const b of birds){
+      if(!b.alive) continue;
+      const dx = bl.x - b.x; const dy = bl.y - b.y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if(dist < bl.size + b.size){
+        // hit!
+        b.alive = false;
+        explosions.push({x:b.x,y:b.y,t:0});
+        score += b.score;
+        document.getElementById('score').textContent = score;
+        // small removal of bullet
+        bl.dead = true;
+        setTimeout(()=>spawnBird(), 400);
+      }
+    }
+  }
+
+  // remove offscreen or dead bullets
+  bullets = bullets.filter(b=>!b.dead && b.x > -200 && b.x < W+200 && b.y > -200 && b.y < H+200);
+
+  // explosions timing
+  for(const ex of explosions) ex.t += dt;
+  explosions = explosions.filter(ex=>ex.t < 700);
+}
+
+// --- Dibujado ---
+function draw(){
+  // clear
+  ctx.clearRect(0,0,W,H);
+
+  // sky gradient already via canvas background CSS, but we'll draw ground
+  const groundH = 60*devicePixelRatio;
+  ctx.fillStyle = '#5aa27f';
+  ctx.fillRect(0,H-groundH,W,groundH);
+
+  // birds
+  for(const b of birds){
+    if(!b.alive) continue;
+    drawBird(b.x,b.y,b.size,b.color,b.type);
+  }
+
+  // bullets
+  for(const bl of bullets){
+    ctx.beginPath();
+    ctx.fillStyle = '#111';
+    ctx.arc(bl.x, bl.y, bl.size, 0, Math.PI*2);
+    ctx.fill();
+  }
+
+  // explosions
+  for(const ex of explosions){
+    const p = ex.t/700;
+    ctx.beginPath();
+    ctx.fillStyle = 'rgba(255,200,60,'+(1-p)+')';
+    ctx.arc(ex.x, ex.y, 10 + 40*p, 0, Math.PI*2);
+    ctx.fill();
+  }
+
+  // HUD: weapon and origin
+  ctx.fillStyle = '#071726';
+  ctx.beginPath();
+  ctx.arc(W/2, H-40*devicePixelRatio, 22*devicePixelRatio, 0, Math.PI*2);
+  ctx.fill();
+  ctx.fillStyle = '#fff';
+  ctx.font = (14*devicePixelRatio)+'px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(currentWeapon.label, W/2, H-12*devicePixelRatio);
+}
+
+function drawBird(x,y,size,color,type){
+  // simple stylized bird: body (ellipse), wing and eye
+  ctx.save();
+  ctx.translate(x,y);
+  ctx.scale(1,1);
+  // body
+  ctx.beginPath();
+  ctx.ellipse(0,0,size*0.9,size*0.6,0,0,Math.PI*2);
+  ctx.fillStyle = color;
+  ctx.fill();
+  // wing
+  ctx.beginPath();
+  ctx.ellipse(-size*0.1,0,size*0.6,size*0.35, -0.7,0,Math.PI*2);
+  ctx.fillStyle = shade(color, -20);
+  ctx.fill();
+  // beak
+  ctx.beginPath();
+  ctx.moveTo(size*0.8,0);
+  ctx.lineTo(size*1.2, -size*0.2);
+  ctx.lineTo(size*1.2, size*0.2);
+  ctx.closePath();
+  ctx.fillStyle = '#f2b66a';
+  ctx.fill();
+  // eye
+  ctx.beginPath(); ctx.arc(size*0.25, -size*0.15, Math.max(1, size*0.08),0,Math.PI*2); ctx.fillStyle='#000'; ctx.fill();
+  ctx.restore();
+}
+
+function shade(hex, percent) {
+  // simple hex shading
+  try{
+    const h = hex.replace('#','');
+    const num = parseInt(h,16);
+    let r = (num >> 16) + percent; if(r>255) r=255; if(r<0) r=0;
+    let g = ((num >> 8) & 0x00FF) + percent; if(g>255) g=255; if(g<0) g=0;
+    let b = (num & 0x0000FF) + percent; if(b>255) b=255; if(b<0) b=0;
+    return '#'+( (r<<16) | (g<<8) | b ).toString(16).padStart(6,'0');
+  } catch(e){ return hex; }
+}
+
+// --- Loop principal ---
+function loop(ts){
+  if(!lastTime) lastTime = ts;
+  const dt = Math.min(40, ts - lastTime);
+  lastTime = ts;
+  if(running){
+    update(dt);
+    draw();
+  }
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+// --- UI control botones ---
+document.getElementById('startBtn').addEventListener('click', ()=>{
+  score = 0; lives = 3; birds = []; bullets = []; explosions = [];
+  for(let i=0;i<5;i++) spawnBird();
+  document.getElementById('score').textContent = score;
+  document.getElementById('lives').textContent = lives;
+  running = true; lastTime = 0;
+});
+
+const pauseBtn = document.getElementById('pauseBtn');
+pauseBtn.addEventListener('click', ()=>{ running = !running; pauseBtn.textContent = running ? 'Pausar' : 'Reanudar'; });
+
+// --- Respawn constante ---
+setInterval(()=>{ if(running && birds.length < 6) spawnBird(); }, 1400);
+
+// Inicia auto-resize y loop
+resize();
+
+</script>
+</body>
+</html>

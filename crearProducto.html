@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Alta de Productos - Catálogo</title>
+    <style>
+        :root {
+            --primary: #4a6741;
+            --bg: #f4f7f6;
+        }
+        body{
+            font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+            background-image:url('https://i.postimg.cc/PrJ4DzJ6/fondo-administrador.png');
+            background-size:cover;
+            background-position:center;
+            background-repeat:no-repeat;
+            background-attachment:fixed;
+            margin:0;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+        }
+
+        header {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .back-button {
+            width: 55px;
+            height: 55px;
+            border: none;
+            border-radius: 12px;
+            background-color: #4a6741;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #3d5635;
+            transform: scale(1.05);
+        }
+        /* Ventana Flotante */
+        .modal-card{
+            background:rgba(255,255,255,.92);
+            backdrop-filter:blur(6px);
+            padding:2rem;
+            border-radius:20px;
+            width:100%;
+            max-width:500px;
+            box-shadow:0 10px 25px rgba(0,0,0,.20);
+        }
+        .modal-card h2 {
+            margin-top: 0;
+            color: var(--primary);
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 10px; /* Bordes redondeados en inputs */
+            box-sizing: border-box;
+            outline: none;
+            transition: border 0.3s;
+        }
+        input:focus {
+            border-color: var(--primary);
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #3d5635;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <button class="back-button" onclick="window.location.href='catalogo.html'">←</button>
+   </header>
+<div class="modal-card">
+    <h2>Nuevo Producto</h2>
+    <form id="productoForm">
+        <div class="form-group">
+            <label>URL de la Imagen</label>
+            <input type="text" id="imagenUrl" placeholder="http://..." required>
+        </div>
+        <div class="form-group">
+            <label>Nombre del Producto</label>
+            <input type="text" id="nombre" placeholder="Ej. Kéfir Granulado" required>
+        </div>
+        <div class="form-group">
+            <label>Descripción</label>
+            <textarea id="descripcion" rows="3" placeholder="Detalles del producto..."></textarea>
+        </div>
+        <div style="display: flex; gap: 10px;">
+            <div class="form-group">
+                <label>Precio ($)</label>
+                <input type="number" id="precio" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label>Cantidad</label>
+                <input type="number" id="cantidad" required>
+            </div>
+        </div>
+        <button type="submit">Guardar en Catálogo</button>
+    </form>
+</div>
+<script>
+
+// Registrar evento
+document
+.getElementById("productoForm")
+.addEventListener("submit", guardarProducto);
+
+async function guardarProducto(e){
+
+    e.preventDefault();
+
+    alert("1️⃣ Evento capturado correctamente");
+
+    const producto = {
+
+        image: document.getElementById("imagenUrl").value,
+
+        name: document.getElementById("nombre").value,
+
+        description: document.getElementById("descripcion").value,
+
+        price: parseFloat(
+            document.getElementById("precio").value
+        ),
+
+        quantity: parseInt(
+            document.getElementById("cantidad").value
+        )
+    };
+
+    alert(
+        "2️⃣ Datos capturados:\n\n" +
+        JSON.stringify(producto,null,2)
+    );
+
+    try{
+
+        alert("3️⃣ Intentando conectar con API...");
+
+        const response = await fetch(
+            "http://localhost:3000/api/productos/alta",
+            {
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify(producto)
+            }
+        );
+
+        alert(
+            "4️⃣ Respuesta recibida\nStatus: "
+            + response.status
+        );
+
+        const texto = await response.text();
+
+        alert(
+            "5️⃣ Respuesta del servidor:\n\n"
+            + texto
+        );
+
+        let resultado;
+
+        try{
+
+            resultado = JSON.parse(texto);
+
+        }
+        catch(error){
+
+            alert(
+                "❌ El servidor NO devolvió JSON\n\n"
+                + texto
+            );
+
+            return;
+        }
+
+        if(resultado.ok){
+
+            alert(
+                "✅ Producto guardado correctamente"
+            );
+
+            document
+            .getElementById("productoForm")
+            .reset();
+
+        }else{
+
+            alert(
+                "❌ Error del servidor:\n"
+                + resultado.mensaje
+            );
+        }
+
+    }
+    catch(error){
+
+        alert(
+            "❌ Error FETCH:\n\n"
+            + error.message
+        );
+
+        console.error(error);
+    }
+}
+</script>
+</body>
+</html>

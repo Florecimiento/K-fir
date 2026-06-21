@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="CSS/styles_submenus.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smoothies Frutales - Kéfir Raíz Vital</title>
+</head>
+<body>
+  <header>
+    <button class="back-button" onclick="window.location.href='menuPrincipal.html'">←</button>
+    <h1>Smoothies Frutales</h1>
+    <button class="go-to-cart" onclick="goToCart()">🛒 Ir al carrito</button>
+  </header>
+
+  <section class="submenu-container">
+    <div class="product-card">
+      <img src="https://i.postimg.cc/vBRDWYtR/fresas.png" alt="Smoothie de Fresa">
+      <div class="product-info">
+        <h3>Smoothie de Fresa</h3>
+        <p>Refrescante y natural, con kéfir y trozos de fresa.</p>
+        <span class="price">$40 MXN</span>
+        <div class="quantity-controls">
+          <button onclick="changeQuantity(this, -1)">−</button>
+          <span>1</span>
+          <button onclick="changeQuantity(this, 1)">+</button>
+        </div>
+        <button class="add-to-cart"
+          data-name="Smoothie de Fresa"
+          data-price="40"
+          data-image="https://i.postimg.cc/vBRDWYtR/fresas.png"
+          data-description="Refrescante y natural, con kéfir y trozos de fresa."
+          onclick="addToCartFromButton(this)">
+          Agregar al carrito
+        </button>   
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="https://i.postimg.cc/1XstjvTQ/Mango.png" alt="Smoothie de Mango">
+      <div class="product-info">
+        <h3>Smoothie de Mango</h3>
+        <p>Suave mezcla tropical con kéfir de leche.</p>
+        <span class="price">$40 MXN</span>
+        <div class="quantity-controls">
+          <button onclick="changeQuantity(this, -1)">−</button>
+          <span>1</span>
+          <button onclick="changeQuantity(this, 1)">+</button>
+        </div>
+        <button class="add-to-cart"
+          data-name="Smoothie de Mango"
+          data-price="40"
+          data-image="https://i.postimg.cc/1XstjvTQ/Mango.png"
+          data-description="Suave mezcla tropical con kéfir de leche."
+          onclick="addToCartFromButton(this)">
+          Agregar al carrito
+        </button>   
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="https://i.postimg.cc/Hkhrk4JB/Ar-ndano-y-moras.png" alt="Smoothie Purple Vital">
+      <div class="product-info">
+        <h3>Smoothie Purple Vital</h3>
+        <p>Combinación de arándanos y moras.</p>
+        <span class="price">$45 MXN</span>
+        <div class="quantity-controls">
+          <button onclick="changeQuantity(this, -1)">−</button>
+          <span>1</span>
+          <button onclick="changeQuantity(this, 1)">+</button>
+        </div>
+        <button class="add-to-cart"
+          data-name="Smoothie Purple Vital"
+          data-price="45"
+          data-image="https://i.postimg.cc/Hkhrk4JB/Ar-ndano-y-moras.png"
+          data-description="Combinación de arándanos y moras."
+          onclick="addToCartFromButton(this)">
+          Agregar al carrito
+        </button>     
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="https://i.postimg.cc/NMhL1sky/frutos-rojoss.png" alt="Smoothie de Frutos Rojos">
+      <div class="product-info">
+        <h3>Smoothie Frutos Rojos</h3>
+        <p>Delicioso toque de fresas, frambuesas y cacao.</p>
+        <span class="price">$45 MXN</span>
+        <div class="quantity-controls">
+          <button onclick="changeQuantity(this, -1)">−</button>
+          <span>1</span>
+          <button onclick="changeQuantity(this, 1)">+</button>
+        </div>
+        <button class="add-to-cart"
+          data-name="Smoothie Frutos Rojos"
+          data-price="45"
+          data-image="https://i.postimg.cc/NMhL1sky/frutos-rojoss.png"
+          data-description="Delicioso toque de fresas, frambuesas y cacao."
+          onclick="addToCartFromButton(this)">
+          Agregar al carrito
+        </button>     
+      </div>
+    </div>
+  </section>
+  <script src="js/car.js"></script>
+  <footer>
+    © 2025 Kéfir Raíz Vital · Integralmente tú
+  </footer>
+</body>
+</html>

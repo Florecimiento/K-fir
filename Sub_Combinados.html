@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="CSS/styles_submenus.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smoothies Combinados - Kéfir Raíz Vital</title>
+  <script src="JS/submenú.js" defer></script>
+</head>
+<body>
+  <header>
+    <button class="back-button" onclick="window.location.href='menuPrincipal.html'">←</button>
+    <h1>Smoothies Combinados</h1>
+    <button class="go-to-cart" onclick="goToCart()">🛒 Ir al carrito</button>
+  </header>
+
+  <section class="submenu-container">
+    <div class="product-card">
+      <img src="https://i.postimg.cc/28jydXhB/Papaya-avena-y-miel.png" alt="Smoothie Papaya Avena">
+      <div class="product-info">
+        <h3>Smoothie Papaya Avena</h3>
+        <p>Refrescante licuado de papaya avena y miel con kéfir.</p>
+        <span class="price">$45 MXN</span>
+        <div class="quantity-controls">
+          <button onclick="changeQuantity(this, -1)">−</button>
+          <span>1</span>
+          <button onclick="changeQuantity(this, 1)">+</button>
+        </div>
+        <button class="add-to-cart"
+          data-name="Smoothie Papaya Avena"
+          data-price="45"
+          data-image="https://i.postimg.cc/28jydXhB/Papaya-avena-y-miel.png"
+          data-description="Refrescante licuado de papaya avena y miel con kéfir"
+          onclick="addToCartFromButton(this)">
+          Agregar al carrito
+        </button> 
+      </div>
+    </div>
+
+<div class="product-card">
+  <img src="https://i.postimg.cc/pX0TsYBR/Pi-a-avena-y-miel.png" alt="Smoothie Piña Avena">
+  <div class="product-info">
+    <h3>Smoothie Piña Avena</h3>
+    <p>Suave mezcla de piña tropical, avena y miel.</p>
+    <span class="price">$48 MXN</span>
+    <div class="quantity-controls">
+      <button onclick="changeQuantity(this, -1)">−</button>
+      <span>1</span>
+      <button onclick="changeQuantity(this, 1)">+</button>
+    </div>
+    <button class="add-to-cart"
+      data-name="Smoothie Piña Avena"
+      data-price="48"
+      data-image="https://i.postimg.cc/pX0TsYBR/Pi-a-avena-y-miel.png"
+      data-description="Kéfir con piña y avena cremosa"
+      onclick="addToCartFromButton(this)">
+      Agregar al carrito
+    </button>
+  </div>
+</div>
+
+    <div class="product-card">
+      <img src="https://i.postimg.cc/Nj50S9N5/Pl-tano-avena-y-miel.png" alt="Smoothie Plátano Avena">
+      <div class="product-info">
+        <h3>Smoothie Plátano Avena</h3>
+        <p>Combinación plátano, avena y miel.</p>
+        <span class="price">$50 MXN</span>
+        <div class="quantity-controls">
+          <button onclick="changeQuantity(this, -1)">−</button>
+          <span>1</span>
+          <button onclick="changeQuantity(this, 1)">+</button>
+        </div>
+        <button class="add-to-cart"
+          data-name="Smoothie Plátano Avena"
+          data-price="50"
+          data-image="https://i.postimg.cc/Nj50S9N5/Pl-tano-avena-y-miel.png"
+          data-description="Combinación plátano, avena y miel"
+          onclick="addToCartFromButton(this)">
+          Agregar al carrito
+        </button> 
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="https://i.postimg.cc/SsWHG1fq/acelga-espinaca-d-tiles.png" alt="Smoothie Hojas Verdes">
+      <div class="product-info">
+        <h3>Smoothie Hojas Verdes</h3>
+        <p>Delicioso toque de acelga, espinaca y dátiles.</p>
+        <span class="price">$52 MXN</span>
+        <div class="quantity-controls">
+          <button onclick="changeQuantity(this, -1)">−</button>
+          <span>1</span>
+          <button onclick="changeQuantity(this, 1)">+</button>
+        </div>
+        <button class="add-to-cart"
+          data-name="Smoothie Hojas Verdes"
+          data-price="52"
+          data-image="https://i.postimg.cc/SsWHG1fq/acelga-espinaca-d-tiles.png"
+          data-description="Delicioso toque de acelga, espinaca y dátiles."
+          onclick="addToCartFromButton(this)">
+          Agregar al carrito
+        </button>   
+      </div>
+    </div>
+  </section>
+  <script src="js/car.js"></script>
+  <footer>
+    © 2025 Kéfir Raíz Vital · Integralmente tú
+  </footer>
+</body>
+</html>

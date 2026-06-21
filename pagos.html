@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="css/styles_pagos.css">
+  <title>Métodos de Pago — Kéfir Raíz Vital</title>
+</head>
+<body>
+  <div class="container">
+    <header class="header-pay">
+      <div class="brand">
+         <button class="back-btn" onclick="history.back()">←</button>
+        <img src="https://i.postimg.cc/264yGs0d/logo-redondo.png" alt="logo">
+        <div>
+          <h1>Métodos de Pago</h1>
+          <div class="subtitle">Elige cómo quieres pagar tu pedido</div>
+        </div>
+      </div>
+      <div class="subtitle">Total a pagar: <strong id="topTotal">$0.00 MXN</strong></div>
+    </header>
+    <!-- Options list (renderizado dinámico) -->
+    <section class="options" id="optionsList"></section>
+    <!-- Form / Summary area -->
+    <section class="form-area">
+      <div class="form-card" id="formCard">
+        <h3 id="formTitle">Selecciona una forma de pago</h3>
+        <div id="formContent" class="form-content">
+          <p class="muted">Al seleccionar una forma de pago verás los campos necesarios aquí.</p>
+        </div>
+      </div>
+      <aside class="summary-card" id="summaryCard">
+        <h3>Resumen del pago</h3>
+        <div style="margin-top:10px">
+          <div class="muted">Productos</div>
+          <ul id="summaryList" style="padding-left:18px;margin:8px 0"></ul>
+          <div class="muted">Subtotal</div>
+          <div id="subtotal" style="font-weight:700;font-size:18px;margin-top:6px">$0.00 MXN</div>
+          <div style="margin-top:8px" class="muted">Cargo servicio / envío</div>
+          <div id="shipping" style="font-weight:600;margin-top:6px">$0.00 MXN</div>
+
+          <hr style="margin:12px 0;border:none;border-top:1px dashed #eee">
+
+          <div class="muted">Total a pagar</div>
+          <div id="total" style="font-size:20px;font-weight:800;margin-top:6px">$0.00 MXN</div>
+        </div>
+        <div id="confirmArea" style="margin-top:12px"></div>
+      </aside>
+    </section>
+  </div>
+
+  <script src="js/Pagos.js"></script>
+  </body>
+</html>

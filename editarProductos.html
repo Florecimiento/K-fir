@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Editar Productos</title>
+
+<style>
+
+body{
+    font-family:Segoe UI;
+    background:#f5f5f5;
+    margin:20px;
+}
+
+ header {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .back-button {
+            width: 55px;
+            height: 55px;
+            border: none;
+            border-radius: 12px;
+            background-color: #4a6741;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #3d5635;
+            transform: scale(1.05);
+        }
+
+h1{
+    color:#4a6741;
+    text-align: center;
+}
+
+.filtros{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+    text-align: center;
+}
+
+.filtros input{
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #ccc;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+}
+
+th{
+    background:#4a6741;
+    color:white;
+    padding:12px;
+}
+
+td{
+    padding:10px;
+    border-bottom:1px solid #ddd;
+}
+
+img{
+    width:80px;
+    height:80px;
+    object-fit:cover;
+    border-radius:10px;
+}
+
+.btnEditar{
+    background:#3498db;
+    color:white;
+    border:none;
+    padding:8px 12px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.btnEditar:hover{
+    background:#217dbb;
+}
+
+.modal{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.5);
+}
+
+.modal-content{
+    background:white;
+    width:500px;
+    margin:50px auto;
+    padding:20px;
+    border-radius:15px;
+}
+
+.modal-content input,
+.modal-content textarea{
+    width:100%;
+    padding:10px;
+    margin-top:5px;
+    margin-bottom:15px;
+}
+
+.btnGuardar{
+    background:#27ae60;
+    color:white;
+    border:none;
+    padding:12px;
+    width:100%;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+</style>
+
+</head>
+<body>
+    <header>
+        <button class="back-button" onclick="window.location.href='catalogo.html'">←</button>
+   </header>
+
+<h1>✏️ Editar Productos</h1>
+
+<div class="filtros">
+
+    <input
+        type="text"
+        id="buscarNombre"
+        placeholder="Buscar producto">
+
+    <input
+        type="number"
+        id="precioMin"
+        placeholder="Precio mínimo">
+
+    <input
+        type="number"
+        id="precioMax"
+        placeholder="Precio máximo">
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+    <th>Imagen</th>
+    <th>Producto</th>
+    <th>Descripción</th>
+    <th>Cantidad</th>
+    <th>Precio</th>
+    <th>Acción</th>
+</tr>
+
+</thead>
+
+<tbody id="tablaProductos">
+
+</tbody>
+
+</table>
+
+<div class="modal" id="modalEditar">
+
+<div class="modal-content">
+
+<h2>Editar Producto</h2>
+
+<input type="hidden" id="idProducto">
+
+<label>Imagen</label>
+<input type="text" id="image">
+
+<label>Nombre</label>
+<input type="text" id="name">
+
+<label>Descripción</label>
+<textarea id="description"></textarea>
+
+<label>Precio</label>
+<input type="number" id="price">
+
+<label>Cantidad</label>
+<input type="number" id="quantity">
+
+<button
+class="btnGuardar"
+onclick="guardarCambios()">
+
+Guardar Cambios
+
+</button>
+
+</div>
+
+</div>
+
+<script>
+let productos=[];
+async function cargarProductos(){
+    try{
+        const response =
+        await fetch(
+        "http://localhost:3000/api/productos"
+        );
+        productos =
+        await response.json();
+        mostrarProductos(productos);
+    }
+    catch(error){
+        alert(error.message);
+    }
+}
+
+function mostrarProductos(lista){
+    const tabla =
+    document.getElementById(
+    "tablaProductos"
+    );
+
+    tabla.innerHTML="";
+    lista.forEach(prod=>{
+        tabla.innerHTML+=`
+        <tr>
+            <td>
+                <img src="${prod.image}">
+            </td>
+            <td>
+                ${prod.name}
+            </td>
+            <td>
+                ${prod.description}
+            </td>
+            <td>
+                ${prod.quantity}
+            </td>
+            <td>
+                $${prod.price}
+            </td>
+            <td>
+                <button
+                class="btnEditar"
+                onclick="editarProducto('${prod._id}')">
+                Editar
+                </button>
+            </td>
+        </tr>
+        `;
+    });
+}
+
+function editarProducto(id){
+    const producto =
+    productos.find(
+    p=>p._id===id
+    );
+
+    document.getElementById(
+    "idProducto"
+    ).value=id;
+
+    document.getElementById(
+    "image"
+    ).value=producto.image;
+
+    document.getElementById(
+    "name"
+    ).value=producto.name;
+
+    document.getElementById(
+    "description"
+    ).value=producto.description;
+
+    document.getElementById(
+    "price"
+    ).value=producto.price;
+
+    document.getElementById(
+    "quantity"
+    ).value=producto.quantity;
+
+    document.getElementById(
+    "modalEditar"
+    ).style.display="block";
+}
+
+async function guardarCambios(){
+
+    const id =
+    document.getElementById(
+    "idProducto"
+    ).value;
+
+    const datos={
+        image:
+        document.getElementById("image").value,
+        name:
+        document.getElementById("name").value,
+        description:
+        document.getElementById("description").value,
+        price:
+        parseFloat(
+        document.getElementById("price").value
+        ),
+        quantity:
+        parseInt(
+        document.getElementById("quantity").value
+        )
+    };
+
+    try{
+        const response =
+        await fetch(
+        `http://localhost:3000/api/productos/${id}`,
+        {
+            method:"PUT",
+            headers:{
+                "Content-Type":
+                "application/json"
+            },
+            body:
+            JSON.stringify(datos)
+        });
+
+      const texto =
+        await response.text();
+        console.log(texto);
+        alert(texto);
+
+        document.getElementById(
+        "modalEditar"
+        ).style.display="none";
+        cargarProductos();
+    }
+    catch(error){
+        alert(error.message);
+    }
+}
+
+document
+.getElementById("buscarNombre")
+.addEventListener("input",filtrar);
+
+document
+.getElementById("precioMin")
+.addEventListener("input",filtrar);
+
+document
+.getElementById("precioMax")
+.addEventListener("input",filtrar);
+
+function filtrar(){
+
+    const nombre =
+    document
+    .getElementById(
+    "buscarNombre"
+    )
+    .value
+    .toLowerCase();
+
+    const min =
+    parseFloat(
+    document
+    .getElementById(
+    "precioMin"
+    ).value
+    ) || 0;
+
+    const max =
+    parseFloat(
+    document
+    .getElementById(
+    "precioMax"
+    ).value
+    ) || 999999;
+
+    const filtrados =
+    productos.filter(p=>
+
+        p.name
+        .toLowerCase()
+        .includes(nombre)
+
+        &&
+
+        p.price>=min
+
+        &&
+
+        p.price<=max
+
+    );
+
+    mostrarProductos(
+    filtrados
+    );
+}
+
+cargarProductos();
+
+</script>
+
+</body>
+</html>

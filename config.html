@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kéfir Raíz Vital - Inicio</title>
+  <link rel="stylesheet" href="CSS/styles_home.css">
+</head>
+<body>
+  <header>
+    <button class="back-button" onclick="window.location.href='MenúPrincipal.html'">←</button>
+    <h1>Kéfir Raíz Vital</h1>
+    <img src="https://i.postimg.cc/264yGs0d/logo-redondo.png" alt="Logo Kéfir Raíz Vital">
+  </header>
+
+ <div id="config-modal" class="config-modal hidden">
+
+  <h2>Configuración de Apariencia</h2>
+
+  <label>Tema:</label>
+  <select id="tema">
+    <option value="claro">Claro</option>
+    <option value="oscuro">Oscuro</option>
+  </select>
+
+  <label>Color Principal:</label>
+  <input type="color" id="colorPrimario">
+
+  <label>Estilo de Tarjetas:</label>
+  <select id="estiloTarjetas">
+    <option value="moderno">Moderno</option>
+    <option value="neumorfico">Neumórfico</option>
+    <option value="clasico">Clásico</option>
+  </select>
+
+  <label>Tamaño de Letra:</label>
+  <input type="range" id="tamanoLetra" min="12" max="22" value="16">
+
+  <button onclick="guardarConfiguracion()">Guardar</button>
+</div>
+
+
+  <footer>
+    © 2025 Kéfir Raíz Vital · Integralmente tú
+  </footer>
+</body>
+</html>

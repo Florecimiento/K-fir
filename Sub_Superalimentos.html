@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="CSS/styles_submenus.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smoothies Superalimentos - Kéfir Raíz Vital</title>
+</head>
+<body>
+  <header>
+    <button class="back-button" onclick="window.location.href='menuPrincipal.html'">←</button>
+    <h1>Smoothies Superalimentos</h1>
+    <button class="go-to-cart" onclick="goToCart()">🛒 Ir al carrito</button>
+  </header>
+
+  <section class="submenu-container">
+    <div class="product-card">
+      <img src="https://i.postimg.cc/WpwtkPFT/Matcha.png" alt="Smoothie de Matcha">
+      <div class="product-info">
+        <h3>Smoothie de Matcha</h3>
+        <p>Refrescante y natural, con Matcha.</p>
+        <span class="price">$45 MXN</span>
+        <div class="quantity-controls">
+          <button onclick="changeQuantity(this, -1)">−</button>
+          <span>1</span>
+          <button onclick="changeQuantity(this, 1)">+</button>
+        </div>
+       <button class="add-to-cart"
+          data-name="Smoothie de Matcha"
+          data-price="45"
+          data-image="https://i.postimg.cc/WpwtkPFT/Matcha.png"
+          data-description="Refrescante y natural, con Matcha."
+          onclick="addToCartFromButton(this)">
+          Agregar al carrito
+        </button>     
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="https://i.postimg.cc/tJkTQhQ9/Matcha-ch-a-cacao.png" alt="Smoothie Matcha Cacao">
+      <div class="product-info">
+        <h3>Smoothie Matcha Cacao</h3>
+        <p>Suave mezcla de Matcha Chía cacao y kéfir de leche.</p>
+        <span class="price">$48 MXN</span>
+        <div class="quantity-controls">
+          <button onclick="changeQuantity(this, -1)">−</button>
+          <span>1</span>
+          <button onclick="changeQuantity(this, 1)">+</button>
+        </div>
+       <button class="add-to-cart"
+          data-name="Smoothie Matcha Cacao"
+          data-price="48"
+          data-image="https://i.postimg.cc/tJkTQhQ9/Matcha-ch-a-cacao.png"
+          data-description="Suave mezcla de Matcha Chía cacao y kéfir de leche."
+          onclick="addToCartFromButton(this)">
+          Agregar al carrito
+        </button>     
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="https://i.postimg.cc/BZXRMGx4/Nuez-almendra-e-Higos.png" alt="Smoothie Frutos Secos">
+      <div class="product-info">
+        <h3>Smoothie Frutos Secos</h3>
+        <p>Combinación de manzana higos y dátiles.</p>
+        <span class="price">$50 MXN</span>
+        <div class="quantity-controls">
+          <button onclick="changeQuantity(this, -1)">−</button>
+          <span>1</span>
+          <button onclick="changeQuantity(this, 1)">+</button>
+        </div>
+        <button class="add-to-cart"
+          data-name="Smoothie Frutos Secos"
+          data-price="50"
+          data-image="https://i.postimg.cc/BZXRMGx4/Nuez-almendra-e-Higos.png"
+          data-description="Combinación de manzana higos y dátiles."
+          onclick="addToCartFromButton(this)">
+          Agregar al carrito
+        </button>  
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="https://i.postimg.cc/52KHxnvt/Chat-GPT-Image-21-oct-2025-04-43-01-p-m.png" alt="Smoothie Seeds">
+      <div class="product-info">
+        <h3>Smoothie Seeds</h3>
+        <p>Delicioso toque de nueces, semillas y linaza.</p>
+        <span class="price">$52 MXN</span>
+        <div class="quantity-controls">
+          <button onclick="changeQuantity(this, -1)">−</button>
+          <span>1</span>
+          <button onclick="changeQuantity(this, 1)">+</button>
+        </div>
+        <button class="add-to-cart"
+          data-name="Smoothie Seeds"
+          data-price="52"
+          data-image="https://i.postimg.cc/52KHxnvt/Chat-GPT-Image-21-oct-2025-04-43-01-p-m.png"
+          data-description="Delicioso toque de nueces, semillas y linaza ."
+          onclick="addToCartFromButton(this)">
+          Agregar al carrito
+        </button>  
+      </div>
+    </div>
+  </section>
+  <script src="js/car.js"></script>
+  <footer>
+    © 2025 Kéfir Raíz Vital · Integralmente tú
+  </footer>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Perfil de Usuario | Kéfir Raíz Vital</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/styles_perfil.css">
+</head>
+<body>
+
+<header class="profile-header">
+   <button class="btn-back" onclick="window.location.href='/menuPrincipal.html'">←</button>
+   
+  <h2>Mi Perfil</h2>
+</header>
+
+<main class="profile-container">
+
+  <!-- COLUMNA IZQUIERDA -->
+  <section class="profile-card">
+
+    <div class="profile-image">
+      <img src="https://i.postimg.cc/264yGs0d/logo-redondo.png" alt="Avatar">
+    </div>
+
+    <h3 id="userName">Marisol Bolaños</h3>
+    <p class="subtitle">Cliente & Distribuidora</p>
+
+    <button class="edit-btn">Editar perfil</button>
+
+  </section>
+
+  <!-- COLUMNA DERECHA -->
+  <section class="profile-info">
+
+    <h3>Datos personales</h3>
+
+    <div class="info-group">
+      <label>Correo electrónico</label>
+      <input type="email" id="email" value="correo@ejemplo.com" disabled>
+    </div>
+
+    <div class="info-group">
+      <label>Teléfono</label>
+      <input type="text" id="phone" value="+52 229 000 0000" disabled>
+    </div>
+
+    <div class="info-group">
+      <label>Dirección</label>
+      <input type="text" id="address" value:="Veracruz, México" disabled>
+    </div>
+
+    <h3>Historial</h3>
+
+    <div class="history-card">
+      <p>Última compra:</p>
+      <strong>29 / 11 / 2025</strong>
+      <span>Total: $280 MXN</span>
+    </div>
+
+    <button class="logout-btn" onclick="logout()">Cerrar sesión</button>
+
+  </section>
+
+</main>
+
+<script src="js/perfil.js"></script>
+</body>
+</html>

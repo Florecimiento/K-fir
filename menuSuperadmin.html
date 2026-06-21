@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Superadministrador</title>
+  <link rel="stylesheet" href="CSS/styles_MenuSuperadmin.css">
+<script>
+  const role = localStorage.getItem("userRole");
+  if (role !== "superadmin") {
+    alert("Acceso denegado ❌");
+    window.location.href = "menuPrincipal.html";
+  }
+</script>
+</head>
+<body>
+  <header class="admin-header">
+    <h1>Panel de Control - Superadministrador</h1>
+    <nav class="admin-nav">
+      <button onclick="window.location.href='catalogo.html'">🧃 Productos</button>
+      <button onclick="mostrarSeccion('compras')">🛒 Compras</button>
+      <button onclick="window.location.href='Index.html'">🚪 Cerrar sesión</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Sección CRUD de Productos -->
+    <section id="productos" class="seccion">
+      <h2>Gestión de Productos</h2>
+      <form id="formProducto">
+        <input type="hidden" id="idProducto">
+        <input type="text" id="nombre" placeholder="Nombre del producto" required>
+        <input type="number" id="precio" placeholder="Precio" required>
+        <input type="text" id="descripcion" placeholder="Descripción" required>
+        <input type="text" id="imagen" placeholder="URL de imagen" required>
+        <button type="submit">💾 Guardar</button>
+      </form>
+
+      <h3>Lista de Productos</h3>
+      <table id="tablaProductos">
+        <thead>
+          <tr>
+            <th>Nombre</th><th>Precio</th><th>Descripción</th><th>Imagen</th><th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- Sección CRUD de Compras -->
+    <section id="compras" class="seccion oculto">
+      <h2>Gestión de Compras</h2>
+      <table id="tablaCompras">
+        <thead>
+          <tr>
+            <th>ID</th><th>Usuario</th><th>Total</th><th>Fecha</th><th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="js/AdminDashboard.js"></script>
+</body>
+</html>
