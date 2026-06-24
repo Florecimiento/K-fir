@@ -9,11 +9,14 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
   const contrasena = document.getElementById('password').value;
 
   try {
-    const response = await fetch("http://localhost:3000/api/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ correo, contrasena })
-    });
+    const response = await fetch(`${API}/api/login`, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+    correo,
+    contrasena
+  })
+});
 
     const data = await response.json();
 
