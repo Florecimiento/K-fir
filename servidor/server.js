@@ -18,8 +18,8 @@ const Usuario = require("./models/Usuario");
 const Producto = require("./models/Roles");
 const Catalogo = require("./models/Producto");
 // Conectar servicios
-//const { initServices } = require("./config/services");
-//const PORT = process.env.PORT || 3000;
+const { initServices } = require("./config/services");
+const PORT = process.env.PORT || 3000;
 
 app.get("/api/test", (req,res)=>{
 
